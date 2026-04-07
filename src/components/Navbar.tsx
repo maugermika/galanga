@@ -24,7 +24,7 @@ export default function Navbar() {
             alt="Galanga"
             width={140}
             height={48}
-            className="h-12 w-auto"
+            style={{ width: "auto", height: "48px" }}
             priority
           />
         </Link>
