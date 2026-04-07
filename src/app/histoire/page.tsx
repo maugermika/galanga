@@ -21,30 +21,30 @@ export default function HistoirePage() {
 
         <div className="prose max-w-none text-gray-700 leading-relaxed space-y-4">
           <p>
-            <strong className="text-teal-dark">Galanga</strong> est ne d&apos;une
-            passion pour la cuisine indonesienne authentique. Notre aventure a
-            commence avec le desir de partager les saveurs riches et variees de
-            l&apos;archipel indonesien.
+            <strong className="text-teal-dark">Galanga</strong> est né d&apos;une
+            passion pour la cuisine indonésienne authentique. Notre aventure a
+            commencé avec le désir de partager les saveurs riches et variées de
+            l&apos;archipel indonésien.
           </p>
 
           <p>
-            Chaque plat que nous preparons est inspire de recettes
-            traditionnelles, transmises de generation en generation. Nous
-            utilisons des ingredients frais et des epices authentiques pour
-            recreer les gouts de l&apos;Indonesie.
+            Chaque plat que nous préparons est inspiré de recettes
+            traditionnelles, transmises de génération en génération. Nous
+            utilisons des ingrédients frais et des épices authentiques pour
+            recréer les goûts de l&apos;Indonésie.
           </p>
 
           <p>
             Le <em>galanga</em>, cette racine aromatique cousine du gingembre,
-            est un ingredient essentiel de la cuisine indonesienne. Il symbolise
-            notre engagement a offrir des saveurs authentiques et un voyage
+            est un ingrédient essentiel de la cuisine indonésienne. Il symbolise
+            notre engagement à offrir des saveurs authentiques et un voyage
             culinaire unique.
           </p>
 
           <p>
-            Notre mission est simple : vous faire decouvrir la richesse de la
-            cuisine indonesienne a travers des plats faits maison, prepares avec
-            amour et dedies a votre plaisir.
+            Notre mission est simple : vous faire découvrir la richesse de la
+            cuisine indonésienne à travers des plats faits maison, préparés avec
+            amour et dédiés à votre plaisir.
           </p>
         </div>
       </div>

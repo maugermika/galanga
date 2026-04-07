@@ -28,13 +28,13 @@ export default async function MenusPage() {
         Nos Menus
       </h1>
       <p className="text-center text-gray-500 mb-10">
-        Decouvrez notre selection de plats indonesiens
+        Découvrez notre sélection de plats indonésiens
       </p>
 
       {!grouped || Object.keys(grouped).length === 0 ? (
         <div className="text-center py-20 text-gray-400">
           <p className="text-5xl mb-4">🍜</p>
-          <p className="text-lg">Les menus arrivent bientot !</p>
+          <p className="text-lg">Les menus arrivent bientôt !</p>
         </div>
       ) : (
         Object.entries(grouped).map(([category, items]) => (

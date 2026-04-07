@@ -1,6 +1,6 @@
 -- ============================================
--- Galanga - Schema Supabase
--- Executer ce SQL dans le SQL Editor de Supabase
+-- Galanga - Schéma Supabase
+-- Exécuter ce SQL dans le SQL Editor de Supabase
 -- ============================================
 
 -- 1. Table des menus
@@ -23,7 +23,7 @@ create policy "Menus are publicly readable"
   on menus for select
   using (true);
 
--- 4. Politique : seuls les utilisateurs authentifies peuvent modifier
+-- 4. Politique : seuls les utilisateurs authentifiés peuvent modifier
 create policy "Authenticated users can insert menus"
   on menus for insert
   to authenticated
@@ -40,7 +40,32 @@ create policy "Authenticated users can delete menus"
   to authenticated
   using (true);
 
--- 5. Creer le bucket de stockage pour les images
--- (A faire manuellement dans Supabase Dashboard > Storage)
--- Nom du bucket : menu-images
--- Public : oui
+-- ============================================
+-- 5. STORAGE : Policies pour le bucket menu-images
+-- Le bucket doit être créé manuellement dans Storage > New Bucket
+-- Nom : menu-images | Public : oui
+-- Puis exécuter le SQL ci-dessous :
+-- ============================================
+
+-- Tout le monde peut VOIR les images (bucket public)
+create policy "Public read access on menu-images"
+  on storage.objects for select
+  using (bucket_id = 'menu-images');
+
+-- Les utilisateurs authentifiés peuvent UPLOADER des images
+create policy "Authenticated users can upload menu images"
+  on storage.objects for insert
+  to authenticated
+  with check (bucket_id = 'menu-images');
+
+-- Les utilisateurs authentifiés peuvent MODIFIER des images
+create policy "Authenticated users can update menu images"
+  on storage.objects for update
+  to authenticated
+  using (bucket_id = 'menu-images');
+
+-- Les utilisateurs authentifiés peuvent SUPPRIMER des images
+create policy "Authenticated users can delete menu images"
+  on storage.objects for delete
+  to authenticated
+  using (bucket_id = 'menu-images');

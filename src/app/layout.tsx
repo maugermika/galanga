@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Galanga - Cuisine Indonesienne",
+  title: "Galanga - Cuisine Indonésienne",
   description:
-    "Galanga - Vente a emporter de cuisine indonesienne authentique. Decouvrez nos plats traditionnels prepares avec passion.",
+    "Galanga - Vente à emporter de cuisine indonésienne authentique. Découvrez nos plats traditionnels préparés avec passion.",
 };
 
 export default function RootLayout({

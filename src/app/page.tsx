@@ -17,8 +17,8 @@ export default function Home() {
             priority
           />
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Savourez les saveurs authentiques de l&apos;Indonesie. Plats
-            traditionnels prepares avec passion, a emporter.
+            Savourez les saveurs authentiques de l&apos;Indonésie. Plats
+            traditionnels préparés avec passion, à emporter.
           </p>
           <Link
             href="/menus"
@@ -38,17 +38,17 @@ export default function Home() {
               Recettes Authentiques
             </h3>
             <p className="text-gray-600 text-sm">
-              Des plats traditionnels indonesiens prepares selon des recettes
-              familiales transmises de generation en generation.
+              Des plats traditionnels indonésiens préparés selon des recettes
+              familiales transmises de génération en génération.
             </p>
           </div>
           <div className="text-center p-6">
             <div className="text-4xl mb-4">🥡</div>
             <h3 className="text-lg font-bold text-teal-dark mb-2">
-              Vente a Emporter
+              Vente à Emporter
             </h3>
             <p className="text-gray-600 text-sm">
-              Commandez et recuperez vos plats frais, prets a deguster chez
+              Commandez et récupérez vos plats frais, prêts à déguster chez
               vous.
             </p>
           </div>
@@ -58,8 +58,8 @@ export default function Home() {
               Fait avec Amour
             </h3>
             <p className="text-gray-600 text-sm">
-              Chaque plat est cuisine avec soin et des ingredients de qualite
-              pour vous offrir le meilleur de l&apos;Indonesie.
+              Chaque plat est cuisiné avec soin et des ingrédients de qualité
+              pour vous offrir le meilleur de l&apos;Indonésie.
             </p>
           </div>
         </div>

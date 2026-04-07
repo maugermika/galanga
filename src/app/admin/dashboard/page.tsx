@@ -13,6 +13,7 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState<Menu | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   // Form state
   const [name, setName] = useState("");
@@ -53,6 +54,7 @@ export default function AdminDashboard() {
     setImagePreview(null);
     setEditing(null);
     setShowForm(false);
+    setUploadError("");
   }
 
   function startEdit(menu: Menu) {
@@ -65,6 +67,7 @@ export default function AdminDashboard() {
     setImagePreview(menu.image_url);
     setImageFile(null);
     setShowForm(true);
+    setUploadError("");
   }
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -72,6 +75,7 @@ export default function AdminDashboard() {
     if (file) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
+      setUploadError("");
     }
   }
 
@@ -79,12 +83,22 @@ export default function AdminDashboard() {
     const ext = file.name.split(".").pop();
     const fileName = `${Date.now()}.${ext}`;
 
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      setUploadError("Session expirée. Veuillez vous reconnecter.");
+      return null;
+    }
+
     const { error } = await supabase.storage
       .from("menu-images")
-      .upload(fileName, file);
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
 
     if (error) {
       console.error("Upload error:", error);
+      setUploadError(`Erreur upload : ${error.message}`);
       return null;
     }
 
@@ -98,12 +112,18 @@ export default function AdminDashboard() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
+    setUploadError("");
 
     let image_url = editing?.image_url || null;
 
     if (imageFile) {
       const url = await uploadImage(imageFile);
-      if (url) image_url = url;
+      if (url) {
+        image_url = url;
+      } else {
+        setSaving(false);
+        return;
+      }
     }
 
     const menuData = {
@@ -116,9 +136,22 @@ export default function AdminDashboard() {
     };
 
     if (editing) {
-      await supabase.from("menus").update(menuData).eq("id", editing.id);
+      const { error } = await supabase
+        .from("menus")
+        .update(menuData)
+        .eq("id", editing.id);
+      if (error) {
+        setUploadError(`Erreur mise à jour : ${error.message}`);
+        setSaving(false);
+        return;
+      }
     } else {
-      await supabase.from("menus").insert(menuData);
+      const { error } = await supabase.from("menus").insert(menuData);
+      if (error) {
+        setUploadError(`Erreur création : ${error.message}`);
+        setSaving(false);
+        return;
+      }
     }
 
     resetForm();
@@ -166,7 +199,7 @@ export default function AdminDashboard() {
             onClick={handleLogout}
             className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
           >
-            Deconnexion
+            Déconnexion
           </button>
         </div>
       </div>
@@ -200,7 +233,7 @@ export default function AdminDashboard() {
                   type="text"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Ex: 12.50 €"
+                  placeholder="Ex : 12,50 €"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium"
                 />
               </div>
@@ -221,13 +254,13 @@ export default function AdminDashboard() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Categorie
+                  Catégorie
                 </label>
                 <input
                   type="text"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  placeholder="Ex: Plats principaux, Desserts..."
+                  placeholder="Ex : Plats principaux, Desserts..."
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium"
                 />
               </div>
@@ -260,13 +293,19 @@ export default function AdminDashboard() {
                 <div className="mt-3 relative w-40 h-28 rounded-lg overflow-hidden">
                   <Image
                     src={imagePreview}
-                    alt="Preview"
+                    alt="Aperçu"
                     fill
                     className="object-cover"
                   />
                 </div>
               )}
             </div>
+
+            {uploadError && (
+              <p className="text-red-indo text-sm bg-red-50 p-3 rounded-lg">
+                {uploadError}
+              </p>
+            )}
 
             <div className="flex gap-3 pt-2">
               <button
@@ -333,7 +372,7 @@ export default function AdminDashboard() {
                 </div>
                 <p className="text-sm text-gray-500 truncate">
                   {menu.category}
-                  {menu.price && ` - ${menu.price}`}
+                  {menu.price && ` — ${menu.price}`}
                 </p>
               </div>
 
