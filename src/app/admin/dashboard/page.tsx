@@ -360,33 +360,22 @@ export default function AdminDashboard() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-                    <select
-                      value={existingCategories.includes(category) ? category : (category ? "__custom__" : "")}
-                      onChange={(e) => {
-                        if (e.target.value === "__custom__") {
-                          setCategory("");
-                          // Focus on the custom input after render
-                          setTimeout(() => {
-                            const el = document.getElementById("custom-category");
-                            if (el) el.focus();
-                          }, 50);
-                        } else {
-                          setCategory(e.target.value);
-                        }
-                      }}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium"
-                    >
-                      <option value="">— Choisir —</option>
+                    <div className="flex flex-wrap gap-2 mb-2">
                       {existingCategories.map((cat) => (
-                        <option key={cat} value={cat}>{cat}</option>
+                        <button key={cat} type="button" onClick={() => setCategory(cat)}
+                          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                            category === cat
+                              ? "bg-teal-dark text-white"
+                              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          }`}>
+                          {cat}
+                        </button>
                       ))}
-                      <option value="__custom__">+ Nouvelle catégorie...</option>
-                    </select>
-                    {(!existingCategories.includes(category) && category !== "") && (
-                      <input id="custom-category" type="text" value={category} onChange={(e) => setCategory(e.target.value)}
-                        placeholder="Nom de la nouvelle catégorie"
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
-                    )}
+                    </div>
+                    <input type="text" value={existingCategories.includes(category) ? "" : category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      placeholder="Ou saisir une nouvelle catégorie..."
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-medium" />
                   </div>
                   <div className="flex items-end">
                     <label className="flex items-center gap-2 cursor-pointer">
