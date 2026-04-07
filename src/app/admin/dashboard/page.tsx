@@ -92,11 +92,31 @@ export default function AdminDashboard() {
     setUploadError("");
   }
 
+  // Extract existing categories for dropdown
+  const existingCategories = [...new Set(menus.map((m) => m.category).filter(Boolean))].sort();
+
+  function handlePriceChange(val: string) {
+    // Allow only digits, comma, and dot
+    const cleaned = val.replace(/[^0-9.,]/g, "");
+    setPrice(cleaned);
+  }
+
+  function formatPriceForSave(val: string): string {
+    if (!val.trim()) return "";
+    return `${val.trim()} €`;
+  }
+
+  function handleComboPriceChange(val: string) {
+    const cleaned = val.replace(/[^0-9.,]/g, "");
+    setComboPrice(cleaned);
+  }
+
   function startEdit(menu: Menu) {
     setEditing(menu);
     setName(menu.name);
     setDescription(menu.description || "");
-    setPrice(menu.price || "");
+    // Strip € for editing
+    setPrice((menu.price || "").replace(/\s*€\s*$/, ""));
     setCategory(menu.category || "");
     setAvailable(menu.available);
     setImagePreview(menu.image_url);
@@ -153,7 +173,7 @@ export default function AdminDashboard() {
       }
     }
 
-    const menuData = { name, description, price, category, available, image_url };
+    const menuData = { name, description, price: formatPriceForSave(price), category, available, image_url };
 
     if (editing) {
       const { error } = await supabase.from("menus").update(menuData).eq("id", editing.id);
@@ -191,7 +211,7 @@ export default function AdminDashboard() {
     setEditingSet(set);
     setComboName(set.name);
     setComboDesc(set.description || "");
-    setComboPrice(set.price || "");
+    setComboPrice((set.price || "").replace(/\s*€\s*$/, ""));
     setComboAvail(set.available);
     setSelectedMenuIds(set.items.map((i) => i.id));
     setShowSetForm(true);
@@ -212,7 +232,7 @@ export default function AdminDashboard() {
     const setData = {
       name: comboName,
       description: comboDesc,
-      price: comboPrice,
+      price: formatPriceForSave(comboPrice),
       available: comboAvail,
     };
 
@@ -324,8 +344,12 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Prix</label>
-                    <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Ex : 12,50 €"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
+                    <div className="relative">
+                      <input type="text" value={price} onChange={(e) => handlePriceChange(e.target.value)}
+                        placeholder="12,50" inputMode="decimal"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">€</span>
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -336,8 +360,33 @@ export default function AdminDashboard() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-                    <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Ex : Plats principaux, Desserts..."
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
+                    <select
+                      value={existingCategories.includes(category) ? category : (category ? "__custom__" : "")}
+                      onChange={(e) => {
+                        if (e.target.value === "__custom__") {
+                          setCategory("");
+                          // Focus on the custom input after render
+                          setTimeout(() => {
+                            const el = document.getElementById("custom-category");
+                            if (el) el.focus();
+                          }, 50);
+                        } else {
+                          setCategory(e.target.value);
+                        }
+                      }}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium"
+                    >
+                      <option value="">— Choisir —</option>
+                      {existingCategories.map((cat) => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                      <option value="__custom__">+ Nouvelle catégorie...</option>
+                    </select>
+                    {(!existingCategories.includes(category) && category !== "") && (
+                      <input id="custom-category" type="text" value={category} onChange={(e) => setCategory(e.target.value)}
+                        placeholder="Nom de la nouvelle catégorie"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
+                    )}
                   </div>
                   <div className="flex items-end">
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -441,9 +490,12 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Prix du menu</label>
-                    <input type="text" value={comboPrice} onChange={(e) => setComboPrice(e.target.value)}
-                      placeholder="Ex : 18,90 €"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
+                    <div className="relative">
+                      <input type="text" value={comboPrice} onChange={(e) => handleComboPriceChange(e.target.value)}
+                        placeholder="18,90" inputMode="decimal"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-teal-medium" />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">€</span>
+                    </div>
                   </div>
                 </div>
                 <div>
