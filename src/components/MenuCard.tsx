@@ -33,11 +33,6 @@ export default function MenuCard({ menu }: { menu: Menu }) {
             {menu.description}
           </p>
         )}
-        {menu.category && (
-          <span className="inline-block mt-3 px-3 py-1 bg-teal-light text-teal-dark text-xs font-medium rounded-full">
-            {menu.category}
-          </span>
-        )}
       </div>
     </div>
   );

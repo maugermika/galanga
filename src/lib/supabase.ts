@@ -15,3 +15,19 @@ export type Menu = {
   available: boolean;
   created_at: string;
 };
+
+export type MenuSet = {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  available: boolean;
+  created_at: string;
+};
+
+export type MenuSetItem = {
+  id: string;
+  set_id: string;
+  menu_id: string;
+  menu?: Menu;
+};

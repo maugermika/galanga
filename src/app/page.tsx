@@ -13,7 +13,7 @@ export default function Home() {
             width={320}
             height={210}
             style={{ width: "320px", height: "auto" }}
-            className="mx-auto mb-8"
+            className="mx-auto mb-8 logo-glow"
             priority
           />
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
@@ -30,8 +30,8 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="max-w-5xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-3 gap-8">
+      <section className="max-w-5xl mx-auto px-4 py-16 batik-bg">
+        <div className="grid md:grid-cols-3 gap-8 relative">
           <div className="text-center p-6">
             <div className="text-4xl mb-4">🍛</div>
             <h3 className="text-lg font-bold text-teal-dark mb-2">

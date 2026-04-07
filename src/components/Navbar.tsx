@@ -25,6 +25,7 @@ export default function Navbar() {
             width={140}
             height={48}
             style={{ width: "auto", height: "48px" }}
+            className="logo-glow"
             priority
           />
         </Link>
