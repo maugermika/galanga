@@ -30,8 +30,8 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="max-w-5xl mx-auto px-4 py-16 batik-bg">
-        <div className="grid md:grid-cols-3 gap-8 relative">
+      <section className="batik-bg py-16">
+        <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-3 gap-8 relative">
           <div className="text-center p-6">
             <div className="text-4xl mb-4">🍛</div>
             <h3 className="text-lg font-bold text-teal-dark mb-2">

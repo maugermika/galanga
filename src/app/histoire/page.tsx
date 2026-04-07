@@ -2,7 +2,8 @@ import Image from "next/image";
 
 export default function HistoirePage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="batik-bg py-12">
+      <div className="max-w-4xl mx-auto px-4 relative">
       <h1 className="text-3xl font-bold text-teal-dark text-center mb-10">
         Notre Histoire
       </h1>
@@ -47,6 +48,7 @@ export default function HistoirePage() {
             amour et dédiés à votre plaisir.
           </p>
         </div>
+      </div>
       </div>
     </div>
   );

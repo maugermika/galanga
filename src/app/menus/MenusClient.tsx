@@ -14,10 +14,21 @@ export default function MenusClient({
   menus: Menu[];
   sets: SetWithItems[];
 }) {
-  // Extract unique categories
+  // Extract unique categories in logical order
+  const categoryOrder = ["Entrées", "Plats", "Desserts"];
+
   const categories = useMemo(() => {
     const cats = [...new Set(menus.map((m) => m.category || "Autres"))];
-    return cats.sort();
+    return cats.sort((a, b) => {
+      const aLower = a.toLowerCase();
+      const bLower = b.toLowerCase();
+      const aIdx = categoryOrder.findIndex((c) => c.toLowerCase() === aLower);
+      const bIdx = categoryOrder.findIndex((c) => c.toLowerCase() === bLower);
+      if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+      if (aIdx !== -1) return -1;
+      if (bIdx !== -1) return 1;
+      return a.localeCompare(b);
+    });
   }, [menus]);
 
   const tabs = [
@@ -46,8 +57,8 @@ export default function MenusClient({
   }, [filteredMenus]);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 batik-bg">
-      <div className="relative">
+    <div className="batik-bg py-12">
+      <div className="max-w-6xl mx-auto px-4 relative">
         <h1 className="text-3xl font-bold text-teal-dark text-center mb-2">
           Nos Menus
         </h1>
@@ -147,7 +158,18 @@ export default function MenusClient({
                 <p className="text-lg">Les menus arrivent bientôt !</p>
               </div>
             ) : (
-              Object.entries(groupedMenus).map(([category, items]) => (
+              Object.entries(groupedMenus)
+                .sort(([a], [b]) => {
+                  const aLower = a.toLowerCase();
+                  const bLower = b.toLowerCase();
+                  const aIdx = categoryOrder.findIndex((c) => c.toLowerCase() === aLower);
+                  const bIdx = categoryOrder.findIndex((c) => c.toLowerCase() === bLower);
+                  if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+                  if (aIdx !== -1) return -1;
+                  if (bIdx !== -1) return 1;
+                  return a.localeCompare(b);
+                })
+                .map(([category, items]) => (
                 <section key={category} className="mb-12">
                   {activeTab === "Tout" && (
                     <h2 className="text-xl font-bold text-teal-dark mb-6 border-b-2 border-red-indo pb-2">
