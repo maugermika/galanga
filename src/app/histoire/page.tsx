@@ -14,6 +14,7 @@ export default function HistoirePage() {
             alt="Galanga"
             width={240}
             height={156}
+            style={{ width: "240px", height: "auto" }}
             className="opacity-90"
           />
         </div>

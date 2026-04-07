@@ -12,6 +12,7 @@ export default function Home() {
             alt="Galanga"
             width={320}
             height={210}
+            style={{ width: "320px", height: "auto" }}
             className="mx-auto mb-8"
             priority
           />
