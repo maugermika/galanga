@@ -21,7 +21,7 @@ export default function HistoirePage() {
 
         <div className="prose max-w-none text-gray-700 leading-relaxed space-y-4">
           <p>
-            <strong className="text-teal-dark">Galanga</strong> est né d&apos;une
+            <strong className="text-teal-dark">Galanga</strong>  est né d&apos;une
             passion pour la cuisine indonésienne authentique. Notre aventure a
             commencé avec le désir de partager les saveurs riches et variées de
             l&apos;archipel indonésien.
