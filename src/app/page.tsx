@@ -48,18 +48,19 @@ export default function Home() {
               Vente à Emporter
             </h3>
             <p className="text-gray-600 text-sm">
-              Commandez et récupérez vos plats frais, prêts à déguster chez
-              vous.
+              Commandez et récupérez vos plats fraîchement préparés, prêts
+              à déguster chez vous.
             </p>
           </div>
           <div className="text-center p-6">
             <div className="text-4xl mb-4">❤️</div>
             <h3 className="text-lg font-bold text-teal-dark mb-2">
-              Fait avec Amour
+              Préparé avec Amour
             </h3>
             <p className="text-gray-600 text-sm">
-              Chaque plat est cuisiné avec soin et des ingrédients de qualité
-              pour vous offrir le meilleur de l&apos;Indonésie.
+              Chaque plat est cuisiné avec soin et à l&apos;aide
+              d&apos;ingrédients frais et de qualité, pour vous offrir le
+              meilleur de l&apos;Indonésie.
             </p>
           </div>
         </div>

@@ -31,15 +31,14 @@ export default function HistoirePage() {
           <p>
             Chaque plat que nous préparons est inspiré de recettes
             traditionnelles, transmises de génération en génération. Nous
-            utilisons des ingrédients frais et des épices authentiques pour
-            recréer les goûts de l&apos;Indonésie.
+            utilisons des ingrédients frais et des épices naturelles.
           </p>
 
           <p>
-            Le <em>galanga</em>, cette racine aromatique cousine du gingembre,
-            est un ingrédient essentiel de la cuisine indonésienne. Il symbolise
-            notre engagement à offrir des saveurs authentiques et un voyage
-            culinaire unique.
+            Le <em>galanga</em>, qui a donné son nom à notre entreprise, est une
+            racine aromatique cousine du gingembre et un ingrédient essentiel de
+            la cuisine indonésienne. Il symbolise notre engagement à offrir des
+            saveurs authentiques et un voyage culinaire unique.
           </p>
 
           <p>

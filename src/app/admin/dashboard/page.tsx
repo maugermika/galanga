@@ -5,6 +5,9 @@ import { supabase } from "@/lib/supabase";
 import type { Menu, MenuSet } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const ImageCropper = dynamic(() => import("@/components/ImageCropper"), { ssr: false });
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -25,6 +28,8 @@ export default function AdminDashboard() {
   const [available, setAvailable] = useState(true);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
+  const [rawImageSrc, setRawImageSrc] = useState<string | null>(null);
 
   // Set form state
   const [showSetForm, setShowSetForm] = useState(false);
@@ -87,6 +92,8 @@ export default function AdminDashboard() {
     setAvailable(true);
     setImageFile(null);
     setImagePreview(null);
+    setShowCropper(false);
+    setRawImageSrc(null);
     setEditing(null);
     setShowForm(false);
     setUploadError("");
@@ -128,10 +135,22 @@ export default function AdminDashboard() {
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
+      setRawImageSrc(URL.createObjectURL(file));
+      setShowCropper(true);
       setUploadError("");
     }
+  }
+
+  function handleCropDone(croppedFile: File) {
+    setImageFile(croppedFile);
+    setImagePreview(URL.createObjectURL(croppedFile));
+    setShowCropper(false);
+    setRawImageSrc(null);
+  }
+
+  function handleCropCancel() {
+    setShowCropper(false);
+    setRawImageSrc(null);
   }
 
   async function uploadImage(file: File): Promise<string | null> {
@@ -388,7 +407,16 @@ export default function AdminDashboard() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Photo</label>
                   <input type="file" accept="image/*" onChange={handleImageChange}
                     className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-teal-light file:text-teal-dark hover:file:bg-teal-medium hover:file:text-white file:cursor-pointer file:transition-colors" />
-                  {imagePreview && (
+                  {showCropper && rawImageSrc && (
+                    <div className="mt-3">
+                      <ImageCropper
+                        imageSrc={rawImageSrc}
+                        onCrop={handleCropDone}
+                        onCancel={handleCropCancel}
+                      />
+                    </div>
+                  )}
+                  {!showCropper && imagePreview && (
                     <div className="mt-3 relative w-40 h-28 rounded-lg overflow-hidden">
                       <Image src={imagePreview} alt="Aperçu" fill className="object-cover" />
                     </div>

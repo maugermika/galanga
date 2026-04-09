@@ -114,7 +114,7 @@ export default function MenusClient({
                     {set.items.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 bg-cream rounded-lg p-3"
+                        className="relative group flex items-center gap-3 bg-cream rounded-lg p-3 cursor-pointer"
                       >
                         {item.image_url ? (
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0">
@@ -139,6 +139,24 @@ export default function MenusClient({
                               {item.category}
                             </p>
                           )}
+                        </div>
+
+                        {/* Hover card */}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20 pointer-events-none">
+                          {item.image_url && (
+                            <div className="relative h-36 w-full">
+                              <Image src={item.image_url} alt={item.name} fill className="object-cover" />
+                            </div>
+                          )}
+                          <div className="p-3">
+                            <div className="flex items-start justify-between gap-2">
+                              <p className="font-bold text-teal-dark text-sm">{item.name}</p>
+                              {item.price && <span className="text-red-indo text-sm font-bold whitespace-nowrap">{item.price}</span>}
+                            </div>
+                            {item.description && (
+                              <p className="text-xs text-gray-500 mt-1 leading-relaxed">{item.description}</p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))}
