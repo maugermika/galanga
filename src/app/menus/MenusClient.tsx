@@ -149,10 +149,7 @@ export default function MenusClient({
                             </div>
                           )}
                           <div className="p-3">
-                            <div className="flex items-start justify-between gap-2">
-                              <p className="font-bold text-teal-dark text-sm">{item.name}</p>
-                              {item.price && <span className="text-red-indo text-sm font-bold whitespace-nowrap">{item.price}</span>}
-                            </div>
+                            <p className="font-bold text-teal-dark text-sm">{item.name}</p>
                             {item.description && (
                               <p className="text-xs text-gray-500 mt-1 leading-relaxed">{item.description}</p>
                             )}
