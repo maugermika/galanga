@@ -1,18 +1,11 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useRef } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
-type AspectOption = { label: string; value: number | undefined };
-
-const ASPECT_OPTIONS: AspectOption[] = [
-  { label: "Libre", value: undefined },
-  { label: "Carré", value: 1 },
-  { label: "4:3", value: 4 / 3 },
-  { label: "16:9", value: 16 / 9 },
-  { label: "3:2", value: 3 / 2 },
-];
+// Menu card ratio: full-width image with h-52 (208px) in ~368px wide cards ≈ 16:9
+const CARD_ASPECT_RATIO = 16 / 9;
 
 export default function ImageCropper({
   imageSrc,
@@ -24,18 +17,6 @@ export default function ImageCropper({
   onCancel: () => void;
 }) {
   const cropperRef = useRef<ReactCropperElement>(null);
-  const [aspect, setAspect] = useState<number | undefined>(undefined);
-
-  const handleAspectChange = useCallback(
-    (value: number | undefined) => {
-      setAspect(value);
-      const cropper = cropperRef.current?.cropper;
-      if (cropper) {
-        cropper.setAspectRatio(value || NaN);
-      }
-    },
-    []
-  );
 
   function handleCrop() {
     const cropper = cropperRef.current?.cropper;
@@ -61,24 +42,7 @@ export default function ImageCropper({
 
   return (
     <div className="space-y-4">
-      {/* Aspect ratio buttons */}
-      <div className="flex flex-wrap gap-2">
-        <span className="text-sm text-gray-500 self-center mr-1">Format :</span>
-        {ASPECT_OPTIONS.map((opt) => (
-          <button
-            key={opt.label}
-            type="button"
-            onClick={() => handleAspectChange(opt.value)}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-              aspect === opt.value
-                ? "bg-teal-dark text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
+      <p className="text-xs text-gray-500">Format carte menu (16:9)</p>
 
       {/* Cropper */}
       <div className="rounded-lg overflow-hidden bg-gray-900">
@@ -86,7 +50,7 @@ export default function ImageCropper({
           ref={cropperRef}
           src={imageSrc}
           style={{ height: 350, width: "100%" }}
-          aspectRatio={aspect || NaN}
+          aspectRatio={CARD_ASPECT_RATIO}
           viewMode={1}
           guides
           background={false}

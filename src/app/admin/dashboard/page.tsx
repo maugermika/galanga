@@ -417,8 +417,20 @@ export default function AdminDashboard() {
                     </div>
                   )}
                   {!showCropper && imagePreview && (
-                    <div className="mt-3 relative w-40 h-28 rounded-lg overflow-hidden">
-                      <Image src={imagePreview} alt="Aperçu" fill className="object-cover" />
+                    <div className="mt-3 flex items-end gap-3">
+                      <div className="relative w-40 h-28 rounded-lg overflow-hidden">
+                        <Image src={imagePreview} alt="Aperçu" fill className="object-cover" />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setRawImageSrc(imagePreview);
+                          setShowCropper(true);
+                        }}
+                        className="text-teal-dark hover:bg-teal-light px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border border-teal-dark/20"
+                      >
+                        Recadrer
+                      </button>
                     </div>
                   )}
                 </div>
